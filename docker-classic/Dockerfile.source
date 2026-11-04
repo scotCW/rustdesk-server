@@ -3,7 +3,8 @@
 #   git submodule update --init --recursive
 #   docker build -f docker-classic/Dockerfile.source -t scotcw/rustdesk-server:secure-tcp .
 FROM rust:1-alpine AS build
-RUN apk add --no-cache build-base pkgconf perl
+RUN apk add --no-cache build-base pkgconf perl openssl-dev openssl-libs-static
+ENV OPENSSL_STATIC=1 OPENSSL_DIR=/usr
 WORKDIR /src
 COPY . .
 RUN cargo build --release --locked --bins
