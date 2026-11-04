@@ -1,0 +1,15 @@
+# Build hbbs/hbbr from this checkout (static musl) into the same minimal layout as
+# docker-classic/Dockerfile. Run from the repository root with submodules checked out:
+#   git submodule update --init --recursive
+#   docker build -f docker-classic/Dockerfile.source -t scotcw/rustdesk-server:secure-tcp .
+FROM rust:1-alpine AS build
+RUN apk add --no-cache build-base pkgconf perl
+WORKDIR /src
+COPY . .
+RUN cargo build --release --locked --bins
+
+FROM scratch
+COPY --from=build /src/target/release/hbbs /usr/bin/hbbs
+COPY --from=build /src/target/release/hbbr /usr/bin/hbbr
+WORKDIR /root
+ENV HOME=/root
