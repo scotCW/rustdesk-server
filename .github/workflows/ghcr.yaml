@@ -23,7 +23,7 @@ permissions:
   packages: write
 
 env:
-  IMAGE: ghcr.io/${{ github.repository_owner }}/rustdesk-server
+  IMAGE: ghcr.io/scotcw/rustdesk-server
 
 jobs:
   build:
